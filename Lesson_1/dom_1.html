@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Attributes, Styling Mehods, Box Model width height</title>
+</head>
+
+<body>
+    <input type="text" name="name" id="testname" value="Huseyn">
+
+    <script>
+        const element = document.getElementById('testname');
+        const attributes = element.attributes;
+
+        element.setAttribute("id", "hname")
+
+        // Different styling methods in JS
+        element.style.color = 'blue'; 
+        element.style.backgroundColor = 'yellow'; 
+
+        element.style.cssText = "color: blue; background-color: yellow;";
+
+        element.setAttribute("style", "color: red; background-color: yellow;")
+
+
+        for (let atr of attributes) {
+            console.log(atr.name + ' : ' + atr.value);
+        }
+
+    </script>
+</body>
+
+</html>

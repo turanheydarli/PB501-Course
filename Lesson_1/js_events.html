@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="js_events.css">
+</head>
+
+<body>
+    <div id="flag">
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+    </div>
+
+    <script>
+        const colorList = ["box-blue", "box-red", "box-green"]
+        const boxes = document.getElementById('flag').children;
+
+        for (let index = 0; index < boxes.length; index++) {
+            const box = boxes[index];
+
+            box.addEventListener("click", () => box.classList.add(colorList[index]))
+        }
+
+
+
+    </script>
+</body>
+
+</html>
