@@ -13,41 +13,58 @@
 <body>
     <div class="container">
         <div class="form-elemets align-items-center pt-3">
-            <form class="row gy-2 gx-3 align-items-center justify-content-center">
+            <form id="create-form" class="row gy-2 gx-3 align-items-center justify-content-center">
                 <div class="col-auto">
-                    <label class="visually-hidden" for="autoSizingInput">Name</label>
-                    <input type="text" class="form-control" id="autoSizingInput" placeholder="Jane Doe">
+                    <label class="visually-hidden" for="autoSizingInput">Day</label>
+                    <input type="text" class="form-control" id="day-input" placeholder="1">
                 </div>
                 <div class="col-auto">
-                    <label class="visually-hidden" for="autoSizingInputGroup">Username</label>
+                    <label class="visually-hidden" for="autoSizingInputGroup">Amount</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="autoSizingInputGroup" placeholder="Username">
+                        <input type="text" class="form-control" id="amount-input" placeholder="Amount">
                     </div>
                 </div>
                 <div class="col-auto">
-                    <label class="visually-hidden" for="autoSizingSelect">Preference</label>
-                    <select class="form-select" id="autoSizingSelect">
+                    <label class="visually-hidden" for="autoSizingSelect">Type</label>
+                    <select class="form-select" id="expence-type-input">
                         <option selected>Choose...</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Food">Food</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Education">Education</option>
                     </select>
                 </div>
 
                 <div class="col-auto">
-                    <button type="submit" id="gyulsum" class="btn btn-primary">Submit</button>
+                    <button id="form-submit-button" type="submit" class="btn btn-primary">Add</button>
                 </div>
             </form>
+        </div>
+
+        <div class="view-elements mt-3">
+            <div class="card" style="width: 100%;">
+                <div class="card-header">
+                    Data List
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li  class="list-group-item" id="most-expensive-day">Most Expensive Day: {}</li>
+                    <li class="list-group-item" id="most-expensive-expense">Most Expensive Expense: </li>
+                    <li class="list-group-item" id="avarage-expense">Avarage Expense: </li>
+                </ul>
+            </div>
         </div>
 
         <div class="table-elements mt-5">
             <div class="col-auto">
                 <label class="visually-hidden" for="autoSizingSelect">Category</label>
                 <select class="form-select" id="filter-select">
-                    <option selected>Choose...</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <option selected="">All</option>
+                    <option>Transport</option>
+                    <option>Entertainment</option>
+                    <option>Food</option>
+                    <option>Shopping</option>
+                    <option>Education</option>
                 </select>
             </div>
 
@@ -61,7 +78,7 @@
                     </tr>
                 </thead>
                 <tbody id="expenses-table-body">
-                   
+
                 </tbody>
             </table>
         </div>
