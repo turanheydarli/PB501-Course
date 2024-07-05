@@ -84,7 +84,7 @@ function renderMostExpensiveExpense() {
 function renderMostExpensiveDay() {
     const expense = getMostExpensiveDayByType('All');
 
-    mostExpensiveDay.innerHTML = `Most Expensive Day: ${expense.day}`;
+    mostExpensiveDay.innerHTML = `Most Expensive Day: ${expense.day }`;
 }
 
 function renderAvarageExpense() {
@@ -112,7 +112,7 @@ function renderExpensesTable() {
 function getAllExpenses() {
     let expenseValues = Object.values(expenses);
 
-    let allExpenses = [];
+    let allExpenses = []; 
 
     for (let index = 0; index < expenseValues.length; index++) {
         const expense = expenseValues[index];
@@ -171,15 +171,25 @@ function getSumOfExpenses() {
 
 function getMostExpensiveDayByType(expenseType) {
     let filteredExpenses = getExpensesByType(expenseType);
+    
+    filteredExpenses = filteredExpenses.map((e) => { 
+       var day = {
+         [e.day] : e
+       }
+       
+        return day
+    });
+    
+    console.log(filteredExpenses)
 
-    let mostExpensiveExpense = filteredExpenses[0];
+    // let mostExpensiveExpense = filteredExpenses[0];
 
-    for (let index = 0; index < filteredExpenses.length; index++) {
-        const expense = filteredExpenses[index];
-        if (expense.amount > mostExpensiveExpense.amount) {
-            mostExpensiveExpense = expense;
-        }
-    }
+    // for (let index = 0; index < filteredExpenses.length; index++) {
+    //     const expense = filteredExpenses[index];
+    //     if (expense.amount > mostExpensiveExpense.amount) {
+    //         mostExpensiveExpense = expense;
+    //     }
+    // }
 
     return mostExpensiveExpense;
 }
