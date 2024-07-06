@@ -78,13 +78,13 @@ function renderPage() {
 function renderMostExpensiveExpense() {
     const expense = getMostExpensiveExpense();
 
-    mostExpensiveExpense.innerHTML = `Most Expensive Expense: ${expense.expenseType}`;
+    mostExpensiveExpense.innerHTML = `Most Expensive Expense: ${expense.expenseType} Amount: ${expense.amount}`;
 }
 
 function renderMostExpensiveDay() {
     const expense = getMostExpensiveDayByType('All');
 
-    mostExpensiveDay.innerHTML = `Most Expensive Day: ${expense.day }`;
+    mostExpensiveDay.innerHTML = `Most Expensive Day: ${expense.day}  Amount: ${expense.amount}`;
 }
 
 function renderAvarageExpense() {
@@ -112,7 +112,7 @@ function renderExpensesTable() {
 function getAllExpenses() {
     let expenseValues = Object.values(expenses);
 
-    let allExpenses = []; 
+    let allExpenses = [];
 
     for (let index = 0; index < expenseValues.length; index++) {
         const expense = expenseValues[index];
@@ -171,25 +171,35 @@ function getSumOfExpenses() {
 
 function getMostExpensiveDayByType(expenseType) {
     let filteredExpenses = getExpensesByType(expenseType);
-    
-    filteredExpenses = filteredExpenses.map((e) => { 
-       var day = {
-         [e.day] : e
-       }
-       
-        return day
-    });
-    
-    console.log(filteredExpenses)
 
-    // let mostExpensiveExpense = filteredExpenses[0];
+    let days = [];
 
-    // for (let index = 0; index < filteredExpenses.length; index++) {
-    //     const expense = filteredExpenses[index];
-    //     if (expense.amount > mostExpensiveExpense.amount) {
-    //         mostExpensiveExpense = expense;
-    //     }
-    // }
+    for (let index = 0; index < filteredExpenses.length; index++) {
+        const element = filteredExpenses[index];
+
+        if (!days.map(d => d.day).includes(element.day)) {
+            let day = {
+                day: element.day,
+                amount: element.amount
+            };
+
+            days.push(day)
+        } else {
+            var el = days.find(d => d.day == element.day);
+
+            el.amount = el.amount + element.amount;
+        }
+
+    }
+
+    let mostExpensiveExpense = days[0];
+
+    for (let index = 0; index < days.length; index++) {
+        const expense = days[index];
+        if (expense.amount > mostExpensiveExpense.amount) {
+            mostExpensiveExpense = expense;
+        }
+    }
 
     return mostExpensiveExpense;
 }
@@ -226,7 +236,7 @@ function validateExpense(expense) {
         return false;
     }
 
-    
+
 
     return true;
 }
