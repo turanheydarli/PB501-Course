@@ -12,7 +12,10 @@ const expensesTableBody = document.querySelector('#expenses-table-body');
 
 const mostExpensiveExpense = document.querySelector('#most-expensive-expense');
 const mostExpensiveDay = document.querySelector('#most-expensive-day');
-const avarageExpense = document.querySelector('#avarage-expense');
+const avarageExpense = document.querySelector('#average-expense');
+const totalExpense = document.querySelector('#total-expense');
+const cheapestDay = document.querySelector('#cheapest-day');
+const cheapestExpense = document.querySelector('#cheapest-expense');
 
 const createForm = document.querySelector('#create-form');
 const formSubmitButton = document.querySelector('#form-submit-button');
@@ -73,24 +76,45 @@ function renderPage() {
     renderAvarageExpense();
 
     renderExpensesTable();
+    renderTotalExpense();
+    renderCheapestDay();
+    renderCheapestExpense();
 }
 
 function renderMostExpensiveExpense() {
     const expense = getMostExpensiveExpense();
 
-    mostExpensiveExpense.innerHTML = `Most Expensive Expense: ${expense.expenseType} Amount: ${expense.amount}`;
+    mostExpensiveExpense.innerHTML = ` ${expense.expenseType}`;
 }
 
 function renderMostExpensiveDay() {
     const expense = getMostExpensiveDayByType('All');
 
-    mostExpensiveDay.innerHTML = `Most Expensive Day: ${expense.day}  Amount: ${expense.amount}`;
+    mostExpensiveDay.innerHTML = ` ${expense.day}`;
+}
+
+function renderCheapestDay() {
+    const expense = getCheapestDayByType('All');
+
+    cheapestDay.innerHTML = ` ${expense.day}`;
+}
+
+function renderCheapestExpense() {
+    const expense = getCheapestExpense();
+
+    cheapestExpense.innerHTML = ` ${expense.expenseType}`;
 }
 
 function renderAvarageExpense() {
     const expense = getAvarageExpense();
 
-    avarageExpense.innerHTML = `Avarage expense: ${expense.toFixed(1)}`;
+    avarageExpense.innerHTML = ` ${expense.toFixed(1)}`;
+}
+
+function renderTotalExpense() {
+    const expense = getSumOfExpenses();
+
+    totalExpense.innerHTML = ` ${expense.toFixed(1)}`;
 }
 
 function renderExpensesTable() {
@@ -142,6 +166,9 @@ function addExpense(expenseType, day, amount) {
     };
 
     if (!validateExpense(newExpense)) {
+        
+        alert("You have some validation errors!");
+
         return null;
     }
 
@@ -163,10 +190,45 @@ function getSumOfExpenses() {
     let sum = 0;
 
     allExpenses.forEach(expense => {
-        expense.amount += sum;
+        sum += expense.amount;
     });
 
     return sum;
+}
+
+function getCheapestDayByType(expenseType) {
+    let filteredExpenses = getExpensesByType(expenseType);
+
+    let days = [];
+
+    for (let index = 0; index < filteredExpenses.length; index++) {
+        const element = filteredExpenses[index];
+
+        if (!days.map(d => d.day).includes(element.day)) {
+            let day = {
+                day: element.day,
+                amount: element.amount
+            };
+
+            days.push(day)
+        } else {
+            var el = days.find(d => d.day == element.day);
+
+            el.amount = el.amount + element.amount;
+        }
+
+    }
+
+    let cheapestExpensiveExpense = days[0];
+
+    for (let index = 0; index < days.length; index++) {
+        const expense = days[index];
+        if (expense.amount < cheapestExpensiveExpense.amount) {
+            cheapestExpensiveExpense = expense;
+        }
+    }
+
+    return cheapestExpensiveExpense;
 }
 
 function getMostExpensiveDayByType(expenseType) {
@@ -204,6 +266,21 @@ function getMostExpensiveDayByType(expenseType) {
     return mostExpensiveExpense;
 }
 
+function getCheapestExpense() {
+    let filteredExpenses = getExpensesByType('All');
+
+    let cheapesyExpense = filteredExpenses[0];
+
+    for (let index = 0; index < filteredExpenses.length; index++) {
+        const expense = filteredExpenses[index];
+        if (expense.amount < cheapesyExpense.amount) {
+            cheapesyExpense = expense;
+        }
+    }
+
+    return cheapesyExpense;
+}
+
 function getMostExpensiveExpense() {
     let filteredExpenses = getExpensesByType('All');
 
@@ -235,8 +312,6 @@ function validateExpense(expense) {
     if (expense.day < 1 || expense.day > 7) {
         return false;
     }
-
-
 
     return true;
 }
